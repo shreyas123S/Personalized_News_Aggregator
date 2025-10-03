@@ -1,6 +1,9 @@
 import requests
+from decouple import config
 
-API_KEY = "96d84cbc9b6e4005b15cc0bbf736828d"
+from decouple import config
+
+API_KEY = config("NEWS_API_KEY")  # Loads from .env file
 BASE_URL = "https://newsapi.org/v2/"
 
 def fetch_news(category=None, query=None, country="us"):
