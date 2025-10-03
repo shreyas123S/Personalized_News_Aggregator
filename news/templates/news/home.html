@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Feed</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        nav a { margin-right: 15px; text-decoration: none; color: blue; }
+        .card {
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            margin: 15px 0; 
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .card img {
+            max-width: 200px; 
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📰 Personalized News Aggregator</h1>
+    <nav>
+        <a href="/">Home</a> | 
+        <a href="/sports/">Sports</a> | 
+        <a href="/cricket/">Cricket</a> | 
+        <a href="/technology/">Technology</a> | 
+        <a href="/politics/">Politics</a> | 
+        <a href="/entertainment/">Entertainment</a>
+    </nav>
+    <hr>
+
+    {% for article in articles %}
+      <div class="card">
+        {% if article.urlToImage %}
+          <img src="{{ article.urlToImage }}" alt="News Image">
+        {% else %}
+          <img src="{% static 'news/default.png' %}" alt="Default Image">
+        {% endif %}
+        <div>
+          <h2>{{ article.title }}</h2>
+          <p>{{ article.description }}</p>
+          <p>📰 {{ article.source.name }} | 🕒 {{ article.publishedAt }}</p>
+          <a href="{{ article.url }}" target="_blank">Read Full Article</a>
+        </div>
+      </div>
+    {% endfor %}
+</body>
+</html>
