@@ -1,6 +1,18 @@
 from django.shortcuts import render
 from .utils import fetch_news
 
+def search(request):
+    query = request.GET.get("q")
+    articles = []
+    if query:
+        raw_articles = fetch_news(query=query, country="in")
+        # ✅ Extra filter: only keep articles that contain query in title/description
+        articles = [
+            a for a in raw_articles
+            if query.lower() in (a.get("title", "").lower() + a.get("description", "").lower())
+        ]
+    return render(request, "news/home.html", {"articles": articles, "search_query": query})
+
 def home(request):
     articles = fetch_news(country="us")
     return render(request, "news/home.html", {"articles": articles})

@@ -6,6 +6,7 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         nav a { margin-right: 15px; text-decoration: none; color: blue; }
+        .search-bar { margin: 20px 0; }
         .card {
             border: 1px solid #ddd; 
             border-radius: 8px; 
@@ -23,6 +24,7 @@
 </head>
 <body>
     <h1>📰 Personalized News Aggregator</h1>
+
     <nav>
         <a href="/">Home</a> | 
         <a href="/sports/">Sports</a> | 
@@ -31,7 +33,20 @@
         <a href="/politics/">Politics</a> | 
         <a href="/entertainment/">Entertainment</a>
     </nav>
+
+    <!-- ✅ Search Bar -->
+    <div class="search-bar">
+        <form action="/search/" method="get">
+            <input type="text" name="q" placeholder="Search news..." value="{{ search_query|default:'' }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
     <hr>
+
+    {% if search_query %}
+        <h2>Search Results for "{{ search_query }}"</h2>
+    {% endif %}
 
     {% for article in articles %}
       <div class="card">
@@ -47,6 +62,8 @@
           <a href="{{ article.url }}" target="_blank">Read Full Article</a>
         </div>
       </div>
+    {% empty %}
+      <p>No articles found.</p>
     {% endfor %}
 </body>
 </html>
